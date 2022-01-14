@@ -1,0 +1,50 @@
+{
+  "brojIzvoda": 2,
+  "datumIzvoda": "2022-01-14",
+  "prethodnoStanje": 3000,
+  "prometUKorist": 10000,
+  "prometNaTeret": 0,
+  "novoStanje": 10000,
+  "rezervisano": 0,
+  "bankarskiRacun": {
+    "id": 1,
+    "brojRacuna": "66734134123",
+    "preduzece": {
+      "id": 1,
+      "naziv": "Company DOO",
+      "pib": "41413132334",
+      "maticniBroj": "2398719137891"
+    },
+    "banka": {
+      "id": 55,
+      "sifra": "111412412413",
+      "naziv": "Raifaisen"
+    }
+  },
+  "stavkeIzvoda": [
+    {
+      "brojStavke": 1,
+      "iznos": 1000,
+      "iskorisceniIznos": 0,
+      "duznik": "Zelan Buranovic",
+      "svrhaPlacanja": "otplata",
+      "primalac": "Company DOO",
+      "racunDuznika": "43225532422",
+      "racunPrimaoca": "5454543455",
+      "model": 98,
+      "pozivNaBroj": "656577565654"
+    },
+    {
+      "brojStavke": 2,
+      "iznos": 6000,
+      "iskorisceniIznos": 0,
+      "duznik": "Dusan Uveric",
+      "svrhaPlacanja": "uplata",
+      "primalac": "Company DOO",
+      "racunDuznika": "231232141424",
+      "racunPrimaoca": "5454543455",
+      "model": 98,
+      "pozivNaBroj": "656577565654"
+    }
+  ]
+}
