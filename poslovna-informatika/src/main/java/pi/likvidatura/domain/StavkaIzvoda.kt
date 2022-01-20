@@ -16,6 +16,9 @@ class StavkaIzvoda (
     @Column(name = "iznos")
     var iznos: Double,
 
+    @Column(name = "verzija")
+    var verzijaStavke: Int = 0,
+
     @Column(name = "iskorisceni_iznos")
     var iskorisceniIznos: Double,
 

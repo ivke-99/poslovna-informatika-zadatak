@@ -4,8 +4,10 @@ const initialState = {
     selectedInvoice: {
         id: 0,
         brojFakture: "",
-        iznosZaPlacanje: "",
-        zatvorena: false
+        iznosZaPlacanje: 0,
+        isplaceniIznos: 0,
+        zatvorena: false,
+        partnerId: 0
     },
     selectedUnit: {
         id: 0,
@@ -13,8 +15,9 @@ const initialState = {
         iznos: 0,
         duznik: "",
         svrhaPlacanja: "",
-        primalac: ""
-
+        primalac: "",
+        verzijaStavke: 0,
+        iskorisceniIznos: 0
     }
 };
 

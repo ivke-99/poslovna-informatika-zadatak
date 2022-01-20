@@ -19,6 +19,8 @@ public class StavkaIzvodaDTO implements Serializable {
 
     private Double iznos;
 
+    private Integer verzijaStavke;
+
     private Double iskorisceniIznos;
 
     private String duznik;
@@ -40,7 +42,7 @@ public class StavkaIzvodaDTO implements Serializable {
     public StavkaIzvodaDTO(Long id, Integer brojStavke,
                            Double iznos, String duznik, String svrhaPlacanja,
                            String primalac, String racunDuznika, String racunPrimaoca,
-                           Integer model, String pozivNaBroj, DnevnoStanjeDTO dnevnoStanje, Double iskorisceniIznos) {
+                           Integer model, String pozivNaBroj, DnevnoStanjeDTO dnevnoStanje, Double iskorisceniIznos, Integer verzijaStavke) {
         this.id = id;
         this.brojStavke = brojStavke;
         this.iznos = iznos;
@@ -53,6 +55,7 @@ public class StavkaIzvodaDTO implements Serializable {
         this.pozivNaBroj = pozivNaBroj;
         this.dnevnoStanje = dnevnoStanje;
         this.iskorisceniIznos = iskorisceniIznos;
+        this.verzijaStavke = verzijaStavke;
     }
 
     public Long getId() {
@@ -62,6 +65,10 @@ public class StavkaIzvodaDTO implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public void setVerzijaStavke(Integer verzijaStavke) {this.verzijaStavke = verzijaStavke; }
+
+    public Integer getVerzijaStavke() { return this.verzijaStavke; }
 
     public Integer getBrojStavke() {
         return brojStavke;
@@ -196,7 +203,7 @@ public class StavkaIzvodaDTO implements Serializable {
                 stavka.getRacunDuznika(), stavka.getRacunPrimaoca(),
                 stavka.getModel(), stavka.getPozivNaBroj(),
                 DnevnoStanjeDTO.fromEntity(stavka.getDnevnoStanje()),
-                stavka.getIskorisceniIznos());
+                stavka.getIskorisceniIznos(), stavka.getVerzijaStavke());
     }
 
     public static List<StavkaIzvodaDTO> fromEntityList(List<StavkaIzvoda> stavke) {

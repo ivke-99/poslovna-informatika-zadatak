@@ -64,13 +64,6 @@ class DnevnoStanjeController(private val dnevnoStanjeService: DnevnoStanjeServic
             .body(result)
     }
 
-    @get:GetMapping
-    val allDnevnaStanja: List<DnevnoStanjeDTO>
-        get() {
-            log.debug("REST request to get all")
-            return dnevnoStanjeService.findAll()
-        }
-
     @GetMapping("/{id}")
     fun getDnevnoStanje(@PathVariable id: Long): ResponseEntity<DnevnoStanjeDTO> {
         log.debug("REST request to get DnevnoStanje : {}", id)

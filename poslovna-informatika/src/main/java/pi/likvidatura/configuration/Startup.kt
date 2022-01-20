@@ -19,7 +19,7 @@ class Startup(
     private val izlaznaFakturaRepository: IzlaznaFakturaRepository,
     private val uplataRepository: UplataRepository
 ): ApplicationRunner {
-    override fun run(args: ApplicationArguments?) {
+    override fun run(args: ApplicationArguments?) {/*
         var banka = Banka("G002","Slovenska banka")
         banka = bankaRepository.save(banka)
 
@@ -34,11 +34,11 @@ class Startup(
         var dnevnoStanje = DnevnoStanje(45, LocalDate.now(), 445.5, 12.4, 451.12, 631.53, 23.45,
             hashSetOf(), bankarskiRacun)
 
-        var stavkaIzvoda = StavkaIzvoda(5, 555.55, 232.43, "Guras", "nema", "Bujanovic",
+        var stavkaIzvoda = StavkaIzvoda(5, 555.55, 2,232.43, "Guras", "nema", "Bujanovic",
             "412521521", "43151351", 97, "42421-233-22", dnevnoStanje)
-        var stavkaIzvoda2 = StavkaIzvoda(6, 424.42, 123.23, "Brawe", "fra", "Dasdad",
+        var stavkaIzvoda2 = StavkaIzvoda(6, 424.42,3, 123.23, "Brawe", "fra", "Dasdad",
             "412521521", "43151351", 97, "42421-2341-22", dnevnoStanje)
-        var stavkaIzvoda3 = StavkaIzvoda(7, 881.2, 23.34, "NMd", "pouzece", "Brassb",
+        var stavkaIzvoda3 = StavkaIzvoda(7, 881.2,4, 23.34, "NMd", "pouzece", "Brassb",
             "123123123", "123123123", 97, "42421-233-99983", dnevnoStanje)
 
         dnevnoStanje.stavkeIzvoda = hashSetOf(stavkaIzvoda, stavkaIzvoda2, stavkaIzvoda3)
@@ -77,6 +77,6 @@ class Startup(
         uplataRepository.save(uplata)
         uplataRepository.save(uplata2)
         uplataRepository.save(uplata3)
-
+        */
     }
 }

@@ -68,7 +68,9 @@ class DnevnoStanjeService(
 
     @Throws(IOException::class)
     fun uploadFile(file: MultipartFile) {
-        var stanje = getDnevnoStanjeFromFile(file)
+        val mapper = ObjectMapper().registerModule(JavaTimeModule())
+            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
+        var stanje = mapper.readValue(convertMultiPartToFile(file), DnevnoStanje::class.java)
         var sacuvanoStanje = dnevnoStanjeRepository.save(stanje)
 
         for (stavka in stanje.stavkeIzvoda) {
@@ -76,13 +78,6 @@ class DnevnoStanjeService(
             stavkaIzvodaRepository.save(stavka)
         }
 
-    }
-
-    @Throws(IOException::class)
-    fun getDnevnoStanjeFromFile(file: MultipartFile): DnevnoStanje {
-        val mapper = ObjectMapper().registerModule(JavaTimeModule())
-            .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false)
-        return mapper.readValue(convertMultiPartToFile(file), DnevnoStanje::class.java)
     }
 
     @Throws(IOException::class, FileNotFoundException::class)

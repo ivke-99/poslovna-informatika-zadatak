@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getPayments, makePayment } from "../api/apiCalls";
+import { getAvailableCredit, getPayments, makePayment } from "../api/apiCalls";
 import { Payment } from "./interface";
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
 import { Button, Card, CardContent, Grid, TextField } from "@mui/material";
@@ -14,6 +14,8 @@ export default function PaymentSection() {
     const [paymentValue, setPaymentValue] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
     const [totalCount, setTotalCount] = useState(0);
+    const [credit, setCredit] = useState(0);
+    const [availableCredit, setAvailableCredit] = useState(0);
 
     const columns: GridColDef[] = [
         {
@@ -53,13 +55,20 @@ export default function PaymentSection() {
     ];
 
     const onPaymentButtonClick = async () => {
+        if(availableCredit < credit && credit !== 0) {
+            alert("You don't have that much credit")
+            return;
+        }
         let dtoPayment = {
             iznos: paymentValue,
             fakturaId: reduxInvoice?.id,
-            stavkaId: reduxUnit?.id
+            stavkaId: reduxUnit?.id,
+            verzijaStavke: reduxUnit?.verzijaStavke,
+            kreditZaKoriscenje: credit
         }
         makePayment(dtoPayment).then((response) => {
             alert(response.data)
+            window.location.reload()
         })
     }
 
@@ -69,7 +78,13 @@ export default function PaymentSection() {
         getPayments(reduxInvoice?.id, reduxUnit?.id, currentPage).then((response) => {
             setPayments(response.content)
             setTotalCount(response.totalElements)
+            if (reduxInvoice?.partnerId !== 0) {
+                getAvailableCredit(reduxInvoice?.partnerId).then((response2) => {
+                    setAvailableCredit(response2)
+                })
+            }
         })
+
     }, [currentPage, reduxInvoice, reduxUnit])
 
     return (
@@ -89,7 +104,7 @@ export default function PaymentSection() {
                     onPageChange={(page, details) => setCurrentPage(page)}
                 />
             </Grid>
-            {reduxInvoice?.id !== 0 && reduxUnit?.id !== 0  &&
+            {reduxInvoice?.id !== 0 && reduxUnit?.id !== 0 &&
                 <Grid item xs={3}>
                     <Card sx={{ minWidth: 400, marginTop: 5 }}>
                         <CardContent>
@@ -103,7 +118,23 @@ export default function PaymentSection() {
                                 }}
                             />
                             <br></br>
-                            <Button variant="contained" onClick={onPaymentButtonClick} disabled={paymentValue <= 0}>Make payment</Button>
+                            {availableCredit !== 0 ?
+                            <>
+                            <h4>Available credit: {availableCredit}</h4>
+                            <TextField
+                                id="outlined-number"
+                                margin="normal"
+                                label="Use credit(optional)"
+                                type="number"
+                                onChange={(e) => setCredit(parseFloat(e.target.value))}
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                            </> : ""
+                            }
+                            <br></br>
+                            <Button variant="contained" onClick={onPaymentButtonClick} disabled={paymentValue <= 0 && credit <= 0}>Make payment</Button>
                         </CardContent>
                     </Card>
                 </Grid>

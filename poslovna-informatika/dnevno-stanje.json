@@ -25,6 +25,7 @@
     {
       "brojStavke": 1,
       "iznos": 1000,
+      "verzijaStavke": 5,
       "iskorisceniIznos": 0,
       "duznik": "Zelan Buranovic",
       "svrhaPlacanja": "otplata",
@@ -37,6 +38,7 @@
     {
       "brojStavke": 2,
       "iznos": 6000,
+      "verzijaStavke": 5,
       "iskorisceniIznos": 0,
       "duznik": "Dusan Uveric",
       "svrhaPlacanja": "uplata",

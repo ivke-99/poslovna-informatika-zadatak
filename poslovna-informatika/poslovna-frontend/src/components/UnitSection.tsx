@@ -33,7 +33,21 @@ export default function UnitsSection(props: any) {
         },
         {
             field: "iznos",
-            headerName: "Quantity",
+            headerName: "Full amount",
+            width: 150,
+            sortable: false,
+            filterable: false
+        },
+        {
+            field: "verzijaStavke",
+            headerName: "Security Version",
+            width: 150,
+            sortable: false,
+            filterable: false
+        },
+        {
+            field: "iskorisceniIznos",
+            headerName: "Amount used",
             width: 150,
             sortable: false,
             filterable: false
@@ -68,7 +82,9 @@ export default function UnitsSection(props: any) {
             iznos: params.row.iznos,
             duznik: params.row.duznik,
             svrhaPlacanja: params.row.svrhaPlacanja,
-            primalac: params.row.primalac
+            primalac: params.row.primalac,
+            verzijaStavke: params.row.verzijaStavke,
+            iskorisceniIznos: params.row.iskorisceniIznos,
         }
         setUnit(unit)
         dispatch(setSelectedUnit(unit))
@@ -82,7 +98,9 @@ export default function UnitsSection(props: any) {
             iznos: 0,
             duznik: "",
             svrhaPlacanja: "",
-            primalac: ""
+            primalac: "",
+            iskorisceniIznos: 0,
+            verzijaStavke: 0
         })
     }
 
@@ -96,8 +114,8 @@ export default function UnitsSection(props: any) {
 
     return (
         <Grid container spacing={2} marginTop={5}>
-            <Grid item xs={6}>
-                <Box width={300} marginLeft={40} marginBottom={0.5}>
+            <Grid item xs={7}>
+                <Box width={500} marginLeft={40} marginBottom={0.5}>
                     <TextField id="standard-basic" label="Search by reason of payment" variant="standard" onChange={(e) => setSearchTitle(e.target.value)} />
                 </Box>
                 <DataGrid
@@ -116,13 +134,13 @@ export default function UnitsSection(props: any) {
             </Grid>
             {selectedUnit.id !== 0 &&
                 <Grid item xs={3}>
-                    <Card sx={{ minWidth: 600, marginTop: 5 }}>
+                    <Card sx={{ minWidth: 450, marginTop: 5 }}>
                         <CardContent>
                             <Typography variant="h4">
                                 <u>Selected unit</u><br></br>
                                 <b>ID:</b> {selectedUnit?.id}<br></br>
                                 <b>Unit number:</b> {selectedUnit?.brojStavke}<br></br>
-                                <b>Quantity:</b> {selectedUnit?.iznos}
+                                <b>Amount payable:</b> {selectedUnit?.iznos}
                             </Typography>
                             <Button size="large" variant='outlined' onClick={onResetSelected}>Reset</Button>
                         </CardContent>

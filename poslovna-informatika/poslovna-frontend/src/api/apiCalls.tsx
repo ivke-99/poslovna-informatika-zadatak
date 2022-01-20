@@ -42,11 +42,9 @@ export async function getUnits(reasonOfPayment?: string, pageNum?: number) {
     return response.data;
 }
 
-export async function getClosingInvoices(pageNum?: number) {
-    const response = await axios.get(baseURL, {
-      params: {
-        ...(pageNum ? { pageNum: pageNum } : {}),
-      },
+export async function getAvailableCredit(partnerId: number) {
+    const response = await axios.get(baseURL + "/uplate/kredit", {
+      params: { "partnerId": partnerId }
     });
     return response.data;
 }

@@ -18,46 +18,10 @@ import java.util.*
 @CrossOrigin
 @RestController
 @RequestMapping("/api/stavke-izvoda")
-class StavkaIzvodaController(private val stavkaIzvodaService: StavkaIzvodaService,
-                             private val stavkaIzvodaRepository: StavkaIzvodaRepository) {
+class StavkaIzvodaController(private val stavkaIzvodaService: StavkaIzvodaService) {
     companion object {
         @JvmStatic
         private val log = LoggerFactory.getLogger(StavkaIzvodaController::class.java)
-    }
-
-    @PostMapping
-    @Throws(URISyntaxException::class)
-    fun createStavkaIzvoda(@RequestBody stavkaIzvodaDTO: StavkaIzvodaDTO): ResponseEntity<StavkaIzvodaDTO> {
-        log.debug("REST request to save StavkaIzvoda : {}", stavkaIzvodaDTO)
-        if (stavkaIzvodaDTO.id != null) {
-            return ResponseEntity(HttpStatus.BAD_REQUEST)
-        }
-        val result: StavkaIzvodaDTO = stavkaIzvodaService.save(stavkaIzvodaDTO)
-        return ResponseEntity
-            .created(URI("/api/stavke-izvoda/" + result.id))
-            .body(result)
-    }
-
-    @PutMapping("/{id}")
-    @Throws(URISyntaxException::class)
-    fun updateStavkaIzvoda(
-        @PathVariable(value = "id", required = false) id: Long,
-        @RequestBody stavkaIzvodaDTO: StavkaIzvodaDTO
-    ): ResponseEntity<StavkaIzvodaDTO> {
-        log.debug("REST request to update StavkaIzvoda : {}, {}", id, stavkaIzvodaDTO)
-        if (stavkaIzvodaDTO.id == null) {
-            return ResponseEntity(HttpStatus.BAD_REQUEST)
-        }
-        if (id != stavkaIzvodaDTO.id) {
-            return ResponseEntity(HttpStatus.BAD_REQUEST)
-        }
-        if (!stavkaIzvodaRepository.existsById(id)) {
-            return ResponseEntity(HttpStatus.BAD_REQUEST)
-        }
-        val result: StavkaIzvodaDTO = stavkaIzvodaService.save(stavkaIzvodaDTO)
-        return ResponseEntity
-            .ok()
-            .body(result)
     }
 
     @GetMapping
@@ -67,25 +31,5 @@ class StavkaIzvodaController(private val stavkaIzvodaService: StavkaIzvodaServic
     ): Page<StavkaIzvodaDTO> {
         log.debug("REST request to get all")
         return stavkaIzvodaService.findAll(svrhaPlacanja ?: "", pageNum)
-    }
-
-    @GetMapping("/{id}")
-    fun getStavkaIzvoda(@PathVariable id: Long): ResponseEntity<StavkaIzvodaDTO> {
-        log.debug("REST request to get StavkaIzvoda : {}", id)
-        val stavkaIzvodaDTO: Optional<StavkaIzvodaDTO> = stavkaIzvodaService.findOne(id)
-        return if (stavkaIzvodaDTO.isEmpty) {
-            ResponseEntity(HttpStatus.NOT_FOUND)
-        } else ResponseEntity
-            .ok()
-            .body(stavkaIzvodaDTO.get())
-    }
-
-    @DeleteMapping("/{id}")
-    fun deleteStavkaIzvoda(@PathVariable id: Long): ResponseEntity<Void> {
-        log.debug("REST request to delete StavkaIzvoda : {}", id)
-        stavkaIzvodaService.delete(id)
-        return ResponseEntity
-            .noContent()
-            .build()
     }
 }

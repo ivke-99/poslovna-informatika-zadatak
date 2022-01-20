@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import pi.likvidatura.repository.PartnerKreditRepository
 import pi.likvidatura.service.dto.UplataDTO
 import pi.likvidatura.service.impl.UplataService
 import java.net.URI
@@ -15,7 +16,8 @@ import java.util.*
 @RestController
 @RequestMapping("/api/uplate")
 class UplataController(
-    private val uplataService: UplataService
+    private val uplataService: UplataService,
+    private val partnerKreditRepository: PartnerKreditRepository
 ) {
     companion object {
         @JvmStatic
@@ -32,14 +34,20 @@ class UplataController(
         return uplataService.findAll(fakturaId, stavkaId, pageNum)
     }
 
+    @GetMapping("/kredit")
+    fun getKredit(@RequestParam partnerId: Long): Double {
+        var kredit = partnerKreditRepository.findByPoslovniPartnerId(partnerId)
+        return kredit?.iznosKredita ?: 0.00
+    }
+
     @PostMapping
     @Throws(URISyntaxException::class)
     fun uplatiFakturu(@RequestBody paymentDTO: PaymentDTO): ResponseEntity<*> {
-        val result = uplataService.zatvoriFakturu(paymentDTO.iznos, paymentDTO.stavkaId, paymentDTO.fakturaId)
+        val result = uplataService.zatvoriFakturu(paymentDTO.iznos, paymentDTO.stavkaId, paymentDTO.fakturaId, paymentDTO.verzijaStavke, paymentDTO.kreditZaKoriscenje)
         return ResponseEntity
             .ok()
             .body(result)
     }
 }
 
-data class PaymentDTO(var iznos: Double, var fakturaId: Long, var stavkaId: Long)
+data class PaymentDTO(var iznos: Double, var fakturaId: Long, var stavkaId: Long, var verzijaStavke: Int, var kreditZaKoriscenje: Double)

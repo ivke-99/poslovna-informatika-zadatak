@@ -7,7 +7,7 @@ import { resetSelectedInvoice, selectSelectedInvoice, setSelectedInvoice } from 
 import { useDispatch, useSelector } from "react-redux";
 
 
-export default function InvoiceSection(props: any) {
+export default function InvoiceSection() {
     const [invoices, setInvoices] = useState<Invoice[]>([]);
     const [searchTitle, setSearchTitle] = useState("");
     const reduxInvoice = useSelector(selectSelectedInvoice);
@@ -39,11 +39,28 @@ export default function InvoiceSection(props: any) {
             filterable: false
         },
         {
+            field: "isplaceniIznos",
+            headerName: "Paid amount",
+            width: 150,
+            sortable: false,
+            filterable: false
+        },
+        {
             field: "zatvorena",
             headerName: "Is closed",
             width: 150,
             sortable: false,
             filterable: false
+        },
+        {
+            field: "poslovniPartner",
+            headerName: "Partner ID",
+            width: 150,
+            sortable: false,
+            filterable: false,
+            renderCell: (params) => (
+                <div>{params.value.id}</div>
+            )
         },
     ];
 
@@ -53,6 +70,8 @@ export default function InvoiceSection(props: any) {
             brojFakture: params.row.brojFakture,
             iznosZaPlacanje: params.row.iznosZaPlacanje,
             zatvorena: params.row.zatvorena,
+            isplaceniIznos: params.row.isplaceniIznos,
+            partnerId: params.row.poslovniPartner.id
         }
         setInvoice(invoice)
         dispatch(setSelectedInvoice(invoice))
@@ -60,7 +79,7 @@ export default function InvoiceSection(props: any) {
 
     const onResetSelected = () => {
         dispatch(resetSelectedInvoice())
-        setInvoice({ id: 0, brojFakture: '', iznosZaPlacanje: 0, zatvorena: false })
+        setInvoice({ id: 0, brojFakture: '', iznosZaPlacanje: 0, zatvorena: false, isplaceniIznos: 0, partnerId: 0 })
     }
 
 
@@ -74,7 +93,7 @@ export default function InvoiceSection(props: any) {
     return (
         <Grid container spacing={2} marginTop={5}>
             <Grid item xs={6}>
-                <Box width={300} marginLeft={40} marginBottom={0.5}>
+                <Box width={400} marginLeft={40} marginBottom={0.5}>
                     <TextField id="standard-basic" label="Search by invoice number" variant="standard" onChange={(e) => setSearchTitle(e.target.value)} />
                 </Box>
                 <DataGrid
